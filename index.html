@@ -1,55 +1,489 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Site Maintenance</title>
-    <meta charset="utf-8"/>
-    <meta name="robots" content="noindex"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Initializing...</title>
     <style>
-      body { text-align: center; padding: 20px; font: 20px Helvetica, sans-serif; color: #efe8e8; }
-      @media (min-width: 768px){
-        body{ padding-top: 150px; }
-      }
-      h1 { font-size: 50px; }
-      article { display: block; text-align: left; max-width: 650px; margin: 0 auto; }
-      a { color: #dc8100; text-decoration: none; }
-      a:hover { color: #efe8e8; text-decoration: none; }
-    </style>
-  </head>
-  <body bgcolor="2e2929">
-    <article>
-        <h1>I&rsquo;ll be back soon!</h1>
-        <div>
-            <p>Sorry for the inconvenience but I&rsquo;m performing some maintenance at the moment. If you need to you can always <a href="mailto:kavinduvishmithasandaruwan@gmail.com">contact me</a>, otherwise I&rsquo;ll be back online shortly!</p>
-            <p>&mdash; Kavindu Sandaruwan</p>
-            
-        </div>
-<!--         <div style="display: flex; flex-direction: row; justify-content: space-between;">
-            <p class="day"></p>
-            <p class="hour"></p>
-            <p class="minute"></p>
-            <p class="second"></p>
-        </div> -->
-    </article>
-    <script>
-        const countDown = () => {
-            const countDay = new Date('September 10, 2024 00:00:00');
-            const now = new Date();
-            const counter = countDay - now;
-            const second = 1000;
-            const minute = second * 60;
-            const hour = minute * 60;
-            const day = hour * 24;
-            const textDay = Math.floor(counter / day);
-            const textHour = Math.floor((counter % day) / hour);
-            const textMinute = Math.floor((counter % hour) / minute);
-            const textSecond = Math.floor((counter % minute) / second)
-            document.querySelector(".day").innerText = textDay + ' Days';
-            document.querySelector(".hour").innerText = textHour + ' Hours';
-            document.querySelector(".minute").innerText = textMinute + ' Minutes';
-            document.querySelector(".second").innerText = textSecond + ' Seconds';
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        setInterval(countDown, 1000);
+
+        body {
+            background: #000;
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                transparent 50%, 
+                rgba(0, 255, 65, 0.03) 50%
+            );
+            background-size: 100% 4px;
+            animation: scanlines 0.1s linear infinite;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .terminal-window {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 
+                0 0 20px #00ff41,
+                inset 0 0 20px rgba(0, 255, 65, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #00ff41;
+        }
+
+        .terminal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff0040;
+        }
+
+        .control-btn:nth-child(2) {
+            background: #ffff00;
+        }
+
+        .control-btn:nth-child(3) {
+            background: #00ff41;
+        }
+
+        .glitch-text {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            position: relative;
+            color: #00ff41;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-text::before {
+            animation: glitch-1 0.5s infinite;
+            color: #ff0040;
+            z-index: -1;
+        }
+
+        .glitch-text::after {
+            animation: glitch-2 0.5s infinite;
+            color: #0040ff;
+            z-index: -2;
+        }
+
+        @keyframes glitch-1 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% {
+                transform: translate(0);
+            }
+            15%, 49% {
+                transform: translate(-2px, 2px);
+            }
+        }
+
+        @keyframes glitch-2 {
+            0%, 20%, 21%, 62%, 63%, 99%, 100% {
+                transform: translate(0);
+            }
+            21%, 62% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .status-line {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #00ff41;
+            font-family: 'Courier New', monospace;
+        }
+
+        .loading-container {
+            margin: 2rem 0;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-fill {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                #00ff41, 
+                transparent
+            );
+            width: 30%;
+            animation: loading 2s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(400%); }
+        }
+
+        .system-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .info-item {
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .info-label {
+            color: #ff0040;
+            font-weight: bold;
+        }
+
+        .hologram {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px solid #00ff41;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: hologram 3s linear infinite;
+        }
+
+        @keyframes hologram {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+                opacity: 0.1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.8) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #00ff41;
+        }
+
+        .contact-link {
+            color: #ff0040;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        .floating-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: #00ff41;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            animation: float-icon 10s linear infinite;
+        }
+
+        @keyframes float-icon {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .glitch-text {
+                font-size: 2rem;
+            }
+            .terminal-window {
+                padding: 1rem;
+                margin: 1rem;
+            }
+            .system-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    <div class="scanlines"></div>
+    <div class="floating-icons" id="floating-icons"></div>
+    
+    <div class="container">
+        <div class="hologram"></div>
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-title">SYSTEM_TERMINAL_v2.1.0</div>
+                <div class="terminal-controls">
+                    <div class="control-btn"></div>
+                    <div class="control-btn"></div>
+                    <div class="control-btn"></div>
+                </div>
+            </div>
+            
+            <div class="glitch-text" data-text="INITIALIZING">INITIALIZING</div>
+            
+            <div class="status-line" id="status-text">
+                > Booting neural network protocols...
+            </div>
+            
+            <div class="loading-container">
+                <div class="loading-bar">
+                    <div class="loading-fill"></div>
+                </div>
+            </div>
+            
+            <div class="system-info">
+                <div class="info-item">
+                    <div class="info-label">STATUS:</div>
+                    <div id="system-status">UNDER_CONSTRUCTION</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">PROGRESS:</div>
+                    <div id="progress-percent">87.3%</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">ETA:</div>
+                    <div id="eta">SOON™</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">DEVELOPER:</div>
+                    <div>SOFTWARE_ENGINEER</div>
+                </div>
+            </div>
+            
+            <div class="contact-info">
+                > Access granted for: 
+                <a href="mailto:dev@example.com" class="contact-link">dev@example.com</a> | 
+                <a href="#" class="contact-link">GitHub</a> | 
+                <a href="#" class="contact-link">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Status text animation
+        const statusTexts = [
+            "> Booting neural network protocols...",
+            "> Loading quantum algorithms...",
+            "> Initializing AI consciousness...",
+            "> Compiling dreams into reality...",
+            "> Establishing secure connections...",
+            "> Portfolio construction in progress...",
+            "> Preparing digital experience..."
+        ];
+
+        let statusIndex = 0;
+        const statusElement = document.getElementById('status-text');
+
+        function updateStatus() {
+            statusElement.style.opacity = '0';
+            setTimeout(() => {
+                statusElement.textContent = statusTexts[statusIndex];
+                statusElement.style.opacity = '1';
+                statusIndex = (statusIndex + 1) % statusTexts.length;
+            }, 500);
+        }
+
+        setInterval(updateStatus, 3000);
+
+        // Floating icons
+        const icons = ['⚡', '🔧', '💻', '🚀', '⚙️', '🔥', '💡', '🎯'];
+        const floatingContainer = document.getElementById('floating-icons');
+
+        function createFloatingIcon() {
+            const icon = document.createElement('div');
+            icon.className = 'floating-icon';
+            icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+            icon.style.left = Math.random() * 100 + '%';
+            icon.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            icon.style.animationDelay = Math.random() * 2 + 's';
+            
+            floatingContainer.appendChild(icon);
+            
+            setTimeout(() => {
+                icon.remove();
+            }, 12000);
+        }
+
+        setInterval(createFloatingIcon, 2000);
+
+        // Progress counter animation
+        const progressElement = document.getElementById('progress-percent');
+        let progress = 87.3;
+
+        function updateProgress() {
+            progress += (Math.random() - 0.5) * 0.2;
+            progress = Math.max(85, Math.min(95, progress));
+            progressElement.textContent = progress.toFixed(1) + '%';
+        }
+
+        setInterval(updateProgress, 2000);
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Add some random glitch effects
+        function randomGlitch() {
+            const glitchElement = document.querySelector('.glitch-text');
+            glitchElement.style.animation = 'none';
+            setTimeout(() => {
+                glitchElement.style.animation = '';
+            }, 100);
+        }
+
+        setInterval(randomGlitch, Math.random() * 5000 + 3000);
     </script>
-  </body>
+</body>
 </html>
