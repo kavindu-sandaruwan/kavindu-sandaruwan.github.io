@@ -364,9 +364,9 @@
             
             <div class="contact-info">
                 > Access granted for: 
-                <a href="mailto:dev@example.com" class="contact-link">dev@example.com</a> | 
-                <a href="#" class="contact-link">GitHub</a> | 
-                <a href="#" class="contact-link">LinkedIn</a>
+                <a href="mailto:Kavinduvishmithasandaruwan@gmail.com" class="contact-link">Kavinduvishmithasandaruwan@gmail.com</a> | 
+                <a href="https://github.com/kavindu-sandaruwan" class="contact-link">GitHub</a> | 
+                <a href="https://www.linkedin.com/in/kavindu-sandaruwan/" class="contact-link">LinkedIn</a>
             </div>
         </div>
     </div>
@@ -434,27 +434,6 @@
         }
 
         setInterval(updateStatus, 3000);
-
-        // Floating icons
-        const icons = ['⚡', '🔧', '💻', '🚀', '⚙️', '🔥', '💡', '🎯'];
-        const floatingContainer = document.getElementById('floating-icons');
-
-        function createFloatingIcon() {
-            const icon = document.createElement('div');
-            icon.className = 'floating-icon';
-            icon.textContent = icons[Math.floor(Math.random() * icons.length)];
-            icon.style.left = Math.random() * 100 + '%';
-            icon.style.animationDuration = (Math.random() * 5 + 8) + 's';
-            icon.style.animationDelay = Math.random() * 2 + 's';
-            
-            floatingContainer.appendChild(icon);
-            
-            setTimeout(() => {
-                icon.remove();
-            }, 12000);
-        }
-
-        setInterval(createFloatingIcon, 2000);
 
         // Progress counter animation
         const progressElement = document.getElementById('progress-percent');
